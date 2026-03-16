@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap — Комп'ютерні науки (Light)</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --blue: #1A9FE8;
+    --blue-light: #0D7DC2;
+    --blue-dark: #0A5A8F;
+    --yellow: #C89B00;
+    --yellow-acc: #F5C800;
+    --yellow-light: #7A5F00;
+    --bg: #FFFFFF;
+    --bg2: #F2F6FB;
+    --bg3: #E8F0F9;
+    --border: rgba(26,100,180,0.12);
+    --text: #0D1B2A;
+    --text-muted: #4A6077;
+    --text-dim: #8293a3;
+
+    --c1: #7A9BB5;
+    --c2: #1A9FE8;
+    --c3: #0D7DC2;
+    --c4: #C89B00;
+  }
+  body {
+    background: #D8E6F2;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+  .page-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #4A6077;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: -30px;
+  }
+  .a5 {
+    width: 560px;
+    min-height: 793px;
+    background: var(--bg);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(26,100,180,0.1), 0 24px 60px rgba(10,50,100,0.18);
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(26,159,232,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,159,232,0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .glow { position: absolute; pointer-events: none; border-radius: 50%; filter: blur(70px); }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 14px 20px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.85);
+  }
+  .logo-area { display: flex; align-items: center; gap: 10px; }
+  .logo-img { width: 44px; height: 34px; object-fit: contain; }
+  .college-name { font-size: 7.5px; color: var(--text-muted); line-height: 1.4; max-width: 150px; }
+  .speciality-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 8px;
+    color: var(--blue-dark); background: rgba(26,159,232,0.1);
+    border: 1px solid rgba(26,159,232,0.3); border-radius: 4px;
+    padding: 3px 8px; letter-spacing: 0.04em;
+  }
+
+  /* ── HERO ── */
+  .hero { padding: 12px 20px 8px; position: relative; z-index: 1; }
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    color: var(--yellow); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
+  }
+  .hero-sub::before { content:''; display:inline-block; width:20px; height:1px; background:var(--yellow); }
+  .hero-title { font-size: 26px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; color: var(--text); }
+  .hero-title span { color: var(--blue); }
+  .hero-desc { font-size: 8.5px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+
+  /* ── VERTICAL TIMELINE ── */
+  .vt-wrap {
+    position: relative;
+    flex: 1;
+    padding: 10px 20px 10px;
+    z-index: 1;
+  }
+
+  .vt-line {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    transform: translateX(-50%);
+    background: linear-gradient(
+      to bottom,
+      var(--c1) 0%,
+      var(--c2) 30%,
+      var(--c3) 60%,
+      var(--c4) 100%
+    );
+    border-radius: 2px;
+  }
+
+  /* Dot — light version: larger, with ring */
+  .vt-dot {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px currentColor, 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 3;
+  }
+
+  .vt-year-label {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    top: 50%; transform: translateY(-50%);
+    z-index: 3;
+    font-weight: 700;
+  }
+  .vt-year-label.left  { right: calc(50% + 12px); text-align: right; }
+  .vt-year-label.right { left:  calc(50% + 12px); }
+
+  .vt-arm {
+    position: absolute;
+    top: 50%;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.25;
+    z-index: -2;
+  }
+  .vt-arm.to-left  { right: calc(50% + 5px); left: 20px; transform-origin: right; }
+  .vt-arm.to-right { left:  calc(50% + 5px); right: 20px; transform-origin: left; }
+
+  .vt-row { position: relative; width: 100%; margin-bottom: 0; }
+
+  .sem-card {
+    position: absolute;
+    width: calc(50% - 28px);
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(26,80,160,0.07);
+  }
+  .sem-card::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  }
+  .sem-card.y1::before { background: var(--c1); }
+  .sem-card.y2::before { background: var(--c2); }
+  .sem-card.y3::before { background: var(--c3); }
+  .sem-card.y4::before { background: var(--c4); }
+
+  .sem-card.left  { left: 14px; }
+  .sem-card.right { right: 14px; }
+
+  .sem-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5px; letter-spacing: 0.1em;
+    margin-bottom: 3px; color: var(--text-dim);
+  }
+  .sem-card.y2 .sem-num { color: rgba(26,159,232,0.7); }
+  .sem-card.y3 .sem-num { color: rgba(13,125,194,0.7); }
+  .sem-card.y4 .sem-num { color: rgba(200,155,0,0.8); }
+
+  .sem-title { font-size: 9px; font-weight: 700; color: var(--text); margin-bottom: 5px; line-height: 1.2; }
+
+  .subjects { display: flex; flex-wrap: wrap; gap: 2px; }
+  .subject-tag { font-size: 7px; padding: 1.5px 4px; border-radius: 3px; line-height: 1.4; font-weight: 500; }
+  .subject-tag.core      { background: rgba(26,159,232,0.1); color: #0A5A8F; border: 1px solid rgba(26,159,232,0.22); }
+  .subject-tag.math      { background: rgba(100,130,160,0.08); color: #4A6077; border: 1px solid rgba(100,130,160,0.18); }
+  .subject-tag.practice  { background: rgba(200,155,0,0.1); color: #7A5F00; border: 1px solid rgba(200,155,0,0.25); }
+  .subject-tag.highlight { background: rgba(26,159,232,0.15); color: #084E7A; border: 1px solid rgba(26,159,232,0.35); font-weight: 700; }
+
+  .sem-outcome {
+    margin-top: 5px; font-size: 7px; color: var(--text-muted);
+    font-style: italic; border-top: 1px solid var(--border); padding-top: 3px;
+  }
+
+  /* ── FOOTER S1 ── */
+  .footer-bar {
+    padding: 9px 20px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.9);
+  }
+  .footer-stat { text-align: center; }
+  .footer-stat .num { font-size: 16px; font-weight: 900; color: var(--blue); line-height: 1; font-family: 'JetBrains Mono', monospace; }
+  .footer-stat .lbl { font-size: 6.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+  .footer-divider { width: 1px; height: 28px; background: var(--border); }
+  .footer-cta { font-size: 8px; color: var(--text-muted); text-align: right; line-height: 1.5; }
+  .footer-cta strong { color: var(--yellow); font-weight: 700; }
+
+  /* ══ SIDE 2 ══ */
+  .hero-s2 { padding: 16px 20px 12px; position: relative; z-index: 1; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.85); }
+  .side2-title { font-size: 20px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; color: var(--text); }
+  .side2-title span { color: var(--yellow); }
+  .side2-sub { font-size: 9px; color: var(--text-muted); margin-top: 4px; }
+  .section { padding: 10px 20px 0; position: relative; z-index: 1; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 7.5px;
+    color: var(--text-dim); letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 7px; display: flex; align-items: center; gap: 6px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .skill-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 8px; box-shadow: 0 1px 4px rgba(26,80,160,0.05); }
+  .skill-name { font-size: 8.5px; font-weight: 700; color: var(--text); display: block; line-height: 1.2; margin-bottom: 2px; }
+  .skill-desc { font-size: 7px; color: var(--text-muted); line-height: 1.3; }
+  .skill-tech { margin-top: 3px; display: flex; flex-wrap: wrap; gap: 2px; }
+  .tech-pill { font-family: 'JetBrains Mono', monospace; font-size: 6.5px; padding: 1px 4px; background: rgba(26,159,232,0.1); border: 1px solid rgba(26,159,232,0.22); border-radius: 2px; color: #0A5A8F; }
+
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
+  .project-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 8px 9px; border-top: 2px solid transparent; box-shadow: 0 1px 4px rgba(26,80,160,0.05); }
+  .project-card.p1 { border-top-color: var(--blue); }
+  .project-card.p2 { border-top-color: var(--blue-light); }
+  .project-card.p3 { border-top-color: var(--yellow-acc); }
+  .project-card.p4 { border-top-color: #7C5CBF; }
+  .project-num { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+  .project-card.p1 .project-num { color: rgba(26,159,232,0.3); }
+  .project-card.p2 .project-num { color: rgba(13,125,194,0.3); }
+  .project-card.p3 .project-num { color: rgba(200,155,0,0.35); }
+  .project-card.p4 .project-num { color: rgba(124,92,191,0.3); }
+  .project-name { font-size: 8.5px; font-weight: 700; color: var(--text); margin-bottom: 2px; line-height: 1.2; }
+  .project-stack { font-family: 'JetBrains Mono', monospace; font-size: 6.5px; color: #0A5A8F; margin-bottom: 2px; }
+  .project-card.p3 .project-stack { color: #7A5F00; }
+  .project-card.p4 .project-stack { color: #5A3E9A; }
+  .project-desc { font-size: 7px; color: var(--text-muted); line-height: 1.4; }
+
+  .careers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .career-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 7px 9px; display: flex; align-items: flex-start; gap: 7px; box-shadow: 0 1px 4px rgba(26,80,160,0.05); }
+  .career-icon-wrap { width: 26px; height: 26px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .ci-blue   { background: rgba(26,159,232,0.12); }
+  .ci-yellow { background: rgba(200,155,0,0.12); }
+  .career-name { font-size: 8.5px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 2px; }
+  .career-desc { font-size: 7px; color: var(--text-muted); line-height: 1.3; }
+  .salary-tag { display: inline-block; margin-top: 2px; font-family: 'JetBrains Mono', monospace; font-size: 6.5px; color: #7A5F00; background: rgba(200,155,0,0.1); border: 1px solid rgba(200,155,0,0.28); border-radius: 3px; padding: 1px 4px; }
+
+  .footer-s2 {
+    margin-top: auto; padding: 10px 20px;
+    border-top: 1px solid var(--border);
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: rgba(255,255,255,0.9);
+  }
+  .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; flex-shrink: 0; }
+  .qr-wrap img { width: 56px; height: 56px; border-radius: 4px; border: 1px solid var(--border); display: block; }
+  .qr-label { font-family: 'JetBrains Mono', monospace; font-size: 6px; color: var(--text-dim); letter-spacing: 0.08em; text-align: center; }
+  .apply-box { flex: 1; }
+  .apply-title { font-size: 13px; font-weight: 900; color: var(--text); line-height: 1.1; margin-bottom: 3px; }
+  .apply-title span { color: var(--blue); }
+  .apply-sub { font-size: 7.5px; color: var(--text-muted); line-height: 1.5; }
+  .apply-btn { display: inline-block; margin-top: 4px; background: var(--blue); color: #fff; font-size: 7.5px; font-weight: 700; padding: 4px 12px; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .college-full { font-size: 6.5px; color: var(--text-dim); line-height: 1.5; max-width: 100px; text-align: right; }
+</style>
+</head>
+<body>
+
+<!-- <div class="page-label">Сторона 1 з 2 — Roadmap навчання</div> -->
+
+<div class="a5" id="side1">
+  <div class="grid-bg"></div>
+  <div class="glow" style="width:280px;height:280px;top:-100px;right:-60px;background:rgba(26,159,232,0.12)"></div>
+  <div class="glow" style="width:200px;height:200px;bottom:-60px;left:-60px;background:rgba(245,200,0,0.1)"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo-area">
+      <img class="logo-img" src="./img/tk_logo_color.png">
+      <div class="college-name">Тернопільський фаховий коледж ТНТУ ім. Івана Пулюя</div>
+    </div>
+    <div class="speciality-tag">F3 · Комп'ютерні науки</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-sub">Твій шлях у IT</div>
+    <div class="hero-title">НАВЧАЛЬНИЙ <span>ROADMAP</span></div>
+    <div class="hero-desc">ОПП «Обслуговування програмних систем і комплексів» · Фаховий молодший бакалавр · 4 роки / 8 семестрів</div>
+  </div>
+
+  <!-- Vertical Timeline -->
+  <div class="vt-wrap" id="vtWrap">
+    <!-- Central line -->
+    <div class="vt-line"></div>
+
+    <!--
+      Layout logic (vt-wrap height ≈ 560px, usable 540px):
+      Dot positions (top from vt-wrap): 60, 195, 330, 465
+      Cards:
+        Y1 left:  top=20,  height~120
+        Y2 right: top=130, height~130
+        Y3 left:  top=265, height~130
+        Y4 right: top=400, height~140
+    -->
+
+    <!-- ── КУРС 1 ── dot at top:60 -->
+    <div style="position:absolute;top:60px;left:0;right:0;">
+      <!-- dot -->
+      <div class="vt-dot" style="top:0; background:var(--c1); box-shadow:0 0 8px var(--c1);"></div>
+      <!-- year label right of line -->
+      <div class="vt-year-label right" style="top:0; color:var(--c1);">1 курс</div>
+      <!-- arm -->
+      <div class="vt-arm to-left" style="top:0; color:var(--c1);"></div>
+      <!-- card -->
+      <div class="sem-card left y1" style="top:-50px;">
+        <div class="sem-num">СЕМЕСТРИ 1–2</div>
+        <div class="sem-title">Загальна підготовка</div>
+        <div class="subjects">
+          <span class="subject-tag math">Вища математика</span>
+          <span class="subject-tag math">Алгебра та геометрія</span>
+          <span class="subject-tag math">Фізика</span>
+          <span class="subject-tag math">Укр. мова</span>
+          <span class="subject-tag math">Іноземна мова</span>
+          <span class="subject-tag math">Історія України</span>
+          <span class="subject-tag core">Інформатика</span>
+        </div>
+        <div class="sem-outcome">Фундамент: логіка, математика, перші кроки в IT</div>
+      </div>
+    </div>
+
+    <!-- ── КУРС 2 ── dot at top:200 -->
+    <div style="position:absolute;top:200px;left:0;right:0;">
+      <div class="vt-dot" style="top:0; background:var(--c2); box-shadow:0 0 8px var(--c2);"></div>
+      <div class="vt-year-label left" style="top:0; color:var(--c2);">2 курс</div>
+      <div class="vt-arm to-right" style="top:0; color:var(--c2);"></div>
+      <div class="sem-card right y2" style="top:-55px;">
+        <div class="sem-num">СЕМЕСТРИ 3–4</div>
+        <div class="sem-title">Базова IT-підготовка</div>
+        <div class="subjects">
+          <span class="subject-tag highlight">Алгоритмізація та програмування</span>
+          <span class="subject-tag core">Операційні системи</span>
+          <span class="subject-tag core">Основи UI/UX дизайну</span>
+          <span class="subject-tag core">Комп'ютерна графіка</span>
+          <span class="subject-tag core">Основи ШІ</span>
+          <span class="subject-tag core">Теорія алгоритмів</span>
+          <span class="subject-tag core">Основи робототехніки</span>
+          <span class="subject-tag practice">Практика «Вступ у спеціальність»</span>
+        </div>
+        <div class="sem-outcome">Пишемо перші програми, вивчаємо ОС, знайомимося з ШІ</div>
+      </div>
+    </div>
+
+    <!-- ── КУРС 3 ── dot at top:360 -->
+    <div style="position:absolute;top:360px;left:0;right:0;">
+      <div class="vt-dot" style="top:0; background:var(--c3); box-shadow:0 0 8px var(--c3);"></div>
+      <div class="vt-year-label right" style="top:0; color:var(--c3);">3 курс</div>
+      <div class="vt-arm to-left" style="top:0; color:var(--c3);"></div>
+      <div class="sem-card left y3" style="top:-55px;">
+        <div class="sem-num">СЕМЕСТРИ 5–6</div>
+        <div class="sem-title">Поглиблена спеціалізація</div>
+        <div class="subjects">
+          <span class="subject-tag highlight">Об'єктно-орієнтоване програмування</span>
+          <span class="subject-tag core">Бази даних та знань</span>
+          <span class="subject-tag highlight">Вебтехнології та вебдизайн</span>
+          <span class="subject-tag core">Спеціалізовані мови програм.</span>
+          <span class="subject-tag core">Програмування роботів</span>
+          <span class="subject-tag practice">Практика з ООП</span>
+          <span class="subject-tag practice">Практика з БД</span>
+        </div>
+        <div class="sem-outcome">Реальні проєкти, курсові роботи, веброзробка</div>
+      </div>
+    </div>
+
+    <!-- ── КУРС 4 ── dot at top:510 -->
+    <div style="position:absolute;top:510px;left:0;right:0;">
+      <div class="vt-dot" style="top:0; background:var(--c4); box-shadow:0 0 10px var(--c4);"></div>
+      <div class="vt-year-label left" style="top:0; color:var(--c4);">4 курс</div>
+      <div class="vt-arm to-right" style="top:0; color:var(--c4);"></div>
+      <div class="sem-card right y4" style="top:-60px;">
+        <div class="sem-num">СЕМЕСТРИ 7–8</div>
+        <div class="sem-title">Професійний рівень</div>
+        <div class="subjects">
+          <span class="subject-tag highlight">Розробка клієнт-серверних застосунків</span>
+          <span class="subject-tag core">Технології захисту інформації</span>
+          <span class="subject-tag core">Комп'ютерні мережі</span>
+          <span class="subject-tag core">Тестування ПЗ</span>
+          <span class="subject-tag core">Адміністрування систем</span>
+          <span class="subject-tag core">Системне ПЗ</span>
+          <span class="subject-tag practice">Технологічна практика</span>
+          <span class="subject-tag practice">Кваліфікаційна робота</span>
+        </div>
+        <div class="sem-outcome">Повноцінна розробка, стажування, захист диплому</div>
+      </div>
+    </div>
+
+  </div><!-- /vt-wrap -->
+
+  <!-- Footer -->
+  <div class="footer-bar">
+    <div class="footer-stat"><div class="num">240+</div><div class="lbl">кредитів ЄКТС</div></div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat"><div class="num">8</div><div class="lbl">семестрів</div></div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat"><div class="num">3</div><div class="lbl">курсові роботи</div></div>
+    <div class="footer-divider"></div>
+    <div class="footer-stat"><div class="num">4</div><div class="lbl">практики</div></div>
+    <div class="footer-divider"></div>
+    <div class="footer-cta"><strong>Сторона 2 →</strong><br>Навички · Кар'єра · Проєкти</div>
+  </div>
+
+</div>
+
+<!-- <div class="page-label">◀ Сторона 2 з 2 — Навички, кар'єра, проєкти</div> -->
+
+<div class="a5" id="side2">
+  <div class="grid-bg"></div>
+  <div class="glow" style="width:280px;height:280px;top:-100px;right:-60px;background:rgba(26,159,232,0.12)"></div>
+  <div class="glow" style="width:200px;height:200px;bottom:-60px;left:-60px;background:rgba(245,200,0,0.1)"></div>
+  
+
+  <div class="header">
+    <div class="logo-area">
+      <img class="logo-img" src="./img/tk_logo_color.png">
+      <div class="college-name">Тернопільський фаховий коледж ТНТУ ім. Івана Пулюя</div>
+    </div>
+    <div class="speciality-tag">F3 · Комп'ютерні науки</div>
+  </div>
+
+  <div class="hero-s2">
+    <div class="hero-sub" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--yellow);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:6px;">
+      <span style="display:inline-block;width:20px;height:1px;background:var(--yellow)"></span>
+      Що тебе чекає після навчання
+    </div>
+    <div class="side2-title">НАВИЧКИ & <span>КАР'ЄРА</span></div>
+    <div class="side2-sub">Від першого рядка коду — до роботи мрії в IT-індустрії</div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Що ти вмітимеш</div>
+    <div class="skills-grid">
+      <div class="skill-item" style="border-top:2px solid var(--blue)">
+        <span class="skill-name">⌨ Програмування</span>
+        <span class="skill-desc">Розробка застосунків від ідеї до готового продукту</span>
+        <div class="skill-tech"><span class="tech-pill">C++</span><span class="tech-pill">Java</span><span class="tech-pill">Python</span></div>
+      </div>
+      <div class="skill-item" style="border-top:2px solid var(--blue-light)">
+        <span class="skill-name">🌐 Веброзробка</span>
+        <span class="skill-desc">Сучасні вебсайти та вебзастосунки</span>
+        <div class="skill-tech"><span class="tech-pill">React</span><span class="tech-pill">Node.js</span><span class="tech-pill">MongoDB</span></div>
+      </div>
+      <div class="skill-item" style="border-top:2px solid var(--yellow)">
+        <span class="skill-name">🗄 Бази даних</span>
+        <span class="skill-desc">Проєктування та управління даними</span>
+        <div class="skill-tech"><span class="tech-pill">PostgreSQL</span><span class="tech-pill">SQLite</span></div>
+      </div>
+      <div class="skill-item" style="border-top:2px solid var(--blue)">
+        <span class="skill-name">🔐 Кібербезпека</span>
+        <span class="skill-desc">Захист інформаційних систем і даних</span>
+        <div class="skill-tech"><span class="tech-pill">Cryptography</span><span class="tech-pill">Networks</span></div>
+      </div>
+      <div class="skill-item" style="border-top:2px solid var(--blue-light)">
+        <span class="skill-name">🤖 ШІ та робототехніка</span>
+        <span class="skill-desc">Основи ML та програмування роботів</span>
+        <div class="skill-tech"><span class="tech-pill">ML basics</span><span class="tech-pill">Qt 6</span></div>
+      </div>
+      <div class="skill-item" style="border-top:2px solid var(--yellow)">
+        <span class="skill-name">🧪 Тестування ПЗ</span>
+        <span class="skill-desc">QA та автоматизоване тестування</span>
+        <div class="skill-tech"><span class="tech-pill">Unit tests</span><span class="tech-pill">Spring</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:9px">
+    <div class="section-label">Реальні проєкти під час навчання</div>
+    <div class="projects-grid">
+      <div class="project-card p1">
+        <div class="project-num">01</div>
+        <div class="project-name">Курсова з ООП</div>
+        <div class="project-stack">C++ · Qt · SQLite/JSON</div>
+        <div class="project-desc">Кросплатформений десктопний застосунок. Архітектура MVC, принципи інкапсуляції, успадкування та поліморфізму</div>
+      </div>
+      <div class="project-card p2">
+        <div class="project-num">02</div>
+        <div class="project-name">Курсова з вебтехнологій</div>
+        <div class="project-stack">React · Express · MongoDB</div>
+        <div class="project-desc">Повноцінний вебзастосунок: фронтенд + REST-бекенд + NoSQL база даних</div>
+      </div>
+      <div class="project-card p3">
+        <div class="project-num">03</div>
+        <div class="project-name">Курсова: клієнт-сервер</div>
+        <div class="project-stack">Java · Spring Boot · PostgreSQL</div>
+        <div class="project-desc">REST API сервіс: Spring Data JPA, Hibernate ORM, DTO-архітектура, валідація та безпека</div>
+      </div>
+      <div class="project-card p4">
+        <div class="project-num">04</div>
+        <div class="project-name">Дипломний проєкт</div>
+        <div class="project-stack">Вільний вибір стеку</div>
+        <div class="project-desc">Комплексна IT-система власної розробки — головний проєкт портфоліо для роботодавця</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:9px">
+    <div class="section-label">Куди можна піти після навчання</div>
+    <div class="careers-grid">
+      <div class="career-card">
+        <div class="career-icon-wrap ci-blue">💻</div>
+        <div>
+          <div class="career-name">Junior Developer</div>
+          <div class="career-desc">Frontend, backend або fullstack розробка в IT-компаніях</div>
+          <span class="salary-tag">від $600 / міс</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon-wrap ci-blue">🧪</div>
+        <div>
+          <div class="career-name">QA Engineer</div>
+          <div class="career-desc">Тестування програмного забезпечення та систем</div>
+          <span class="salary-tag">від $500 / міс</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon-wrap ci-yellow">🛡</div>
+        <div>
+          <div class="career-name">Системний адміністратор</div>
+          <div class="career-desc">Адміністрування серверів, мереж та корпоративних систем</div>
+          <span class="salary-tag">від $450 / міс</span>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-icon-wrap ci-yellow">🎓</div>
+        <div>
+          <div class="career-name">Продовження освіти</div>
+          <div class="career-desc">Вступ на 2–3 курс університету за спеціальністю «Комп'ютерні науки»</div>
+          <span class="salary-tag">без втрати часу</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-s2">
+    <div class="qr-wrap">
+      <img src="data:image/png;base64,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" alt="QR cs.tk.te.ua">
+      <div class="qr-label">cs.tk.te.ua</div>
+    </div>
+    <div class="apply-box">
+      <div class="apply-title">Вступай<br><span>вже зараз!</span></div>
+      <div class="apply-sub">
+        Подай документи онлайн або особисто.<br>
+        м. Тернопіль, вул. Л. Курбаса, 13, ауд. №102
+      </div>
+      <div class="apply-btn">Дізнатись більше</div>
+    </div>
+    <div class="college-full">Відокремлений структурний підрозділ «Тернопільський фаховий коледж ТНТУ імені Івана Пулюя»</div>
+  </div>
+</div>
+</body>
+</html>
