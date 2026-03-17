@@ -14,6 +14,7 @@
     --yellow: #C89B00;
     --yellow-acc: #F5C800;
     --yellow-light: #7A5F00;
+    --yellow-dark: #5c4802;
     --bg: #FFFFFF;
     --bg2: #F2F6FB;
     --bg3: #E8F0F9;
@@ -36,6 +37,9 @@
     align-items: center;
     gap: 40px;
     padding: 40px 20px;
+    width: 600px;
+    margin: 0 auto;
+    overflow-x: auto;
   }
   .page-label {
     font-family: 'JetBrains Mono', monospace;
@@ -53,6 +57,7 @@
     box-shadow: 0 0 0 1px rgba(26,100,180,0.1), 0 24px 60px rgba(10,50,100,0.18);
     display: flex;
     flex-direction: column;
+    /* overflow-x: auto; */
   }
   .grid-bg {
     position: absolute; inset: 0; pointer-events: none;
@@ -84,7 +89,7 @@
   /* ── HERO ── */
   .hero { padding: 12px 20px 8px; position: relative; z-index: 1; }
   .hero-sub {
-    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; text-shadow: 0 0 5px  var(--yellow);
     color: var(--yellow); letter-spacing: 0.2em; text-transform: uppercase;
     margin-bottom: 4px; display: flex; align-items: center; gap: 6px;
   }
@@ -403,7 +408,7 @@
       <div class="vt-dot" style="top:0; background:var(--c4); box-shadow:0 0 10px var(--c4);"></div>
       <div class="vt-year-label left" style="top:0; color:var(--c4);">4 курс</div>
       <div class="vt-arm to-right" style="top:0; color:var(--c4);"></div>
-      <div class="sem-card right y4" style="top:-95px;">
+      <div class="sem-card right y4" style="top:-105px;">
         <div class="sem-num">СЕМЕСТРИ 7–8</div>
         <div class="sem-title">Професійний рівень</div>
         <div class="subjects">
